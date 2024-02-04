@@ -46,7 +46,7 @@ class FileStorage:
         for key in self.__objects:
             json_objects[key] = self.__objects[key].to_dict()
         with open(self.__file_path, 'w') as f:
-            json.dump(json_objects, f)
+            json.dump(json_objects, f, indent=4)
 
     def reload(self):
         """deserializes the JSON file to __objects"""
@@ -55,7 +55,7 @@ class FileStorage:
                 jo = json.load(f)
             for key in jo:
                 self.__objects[key] = classes[jo[key]["__class__"]](**jo[key])
-        except:
+        except Exception:
             pass
 
     def delete(self, obj=None):
@@ -68,3 +68,21 @@ class FileStorage:
     def close(self):
         """call reload() method for deserializing the JSON file to objects"""
         self.reload()
+
+    def get(self, cls, id):
+        """get object by class and id"""
+        for object in self.__objects.values():
+            if cls == object.__class__ and id == object.id:
+                return object
+        return None
+
+    def count(self, cls=None):
+        """Count current number of class instances"""
+        count = 0
+        for object in self.__objects.values():
+            if cls:
+                if cls == object.__class__:
+                    count += 1
+            else:
+                count += 1
+        return count
