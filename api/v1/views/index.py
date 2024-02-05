@@ -4,16 +4,10 @@ from api.v1.views import app_views
 from flask import jsonify
 
 
-
 @app_views.route('/status')
 def status():
     """return status ok"""
     return jsonify({"status": "OK"})
-
-
-
-
-
 
 # from models.amenity import Amenity
 # from models.city import City
@@ -25,11 +19,6 @@ def status():
 
 # app = Flask(__name__)
 # app.url_map.strict_slashes = False
-
-
-
-
-
 
 # @app_views.route('/stats', methods=['GET'])
 # def number_of_object():
