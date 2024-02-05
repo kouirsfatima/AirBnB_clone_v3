@@ -12,13 +12,13 @@ from models.user import User
 from models.amenity import Amenity
 
 
-@app_views.route('/status', strict_slashes=False, methods=["GET"])
+@app_views.route('/status', methods=["GET"], strict_slashes=False)
 def status():
     """return status ok"""
     return jsonify({"status": "OK"})
 
 
-@app_views.route('/stats', strict_slashes=False, methods=["GET"])
+@app_views.route('/stats', methods=["GET"], strict_slashes=False)
 def get_stats():
     """retrieves the number of each objects by type"""
     return jsonify({
@@ -29,17 +29,3 @@ def get_stats():
         "states": storage.count(State),
         "users": storage.count(User)
         })
-
-
-# app = Flask(__name__)
-# app.url_map.strict_slashes = False
-
-# @app_views.route('/stats', methods=['GET'])
-# def number_of_object():
-#     classes = {"Amenity": Amenity,"City": City,
-#              "Place": Place, "Review": Review, "State": State, "User": User}
-#     states = {}
-#     for cl_name, cl_type in classes.items():
-#         count = storage.count(cl_type)
-#         states[cl_name] = count
-#     return jsonify(states)
