@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+""" Flask app """
 from flask import Flask  # , jsonify, make_response
 from os import environ
 from models import storage
@@ -9,6 +10,7 @@ app.register_blueprint(app_views)
 
 @app.teardown_appcontext
 def close_db(error):
+    """closes the storage on teardown"""
     storage.close()
 
 

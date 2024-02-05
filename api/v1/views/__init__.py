@@ -1,3 +1,6 @@
+#!/usr/bin/pyhton3
+"""create app_views instance"""
+
 from flask import Blueprint
 
 app_views = Blueprint('app_views', __name__, url_prefix='/api/v1')
