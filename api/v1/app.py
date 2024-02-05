@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ Flask app """
-from flask import Flask  # , jsonify, make_response
+from flask import Flask , jsonify, make_response
 from os import environ
 from models import storage
 from api.v1.views import app_views
