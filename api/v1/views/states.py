@@ -64,7 +64,7 @@ def Update_state(state_id):
         abort(404)
     data = request.get_json(force=True, silent=True)
     if not data:
-        return make_response("Not a JSON", 400)
+        abort(400, "Not a JSON")
     keys = ["id", "created_at", "updated_at"]
 
     for key, value in data.items():
