@@ -51,7 +51,7 @@ def create_state():
         return make_response("Missing name", 400)
 
     data = request.get_json()
-    new_state = State(**data)
+    new_state = State(name=data["name"])
     new_state.save()
     return make_response(jsonify(new_state.to_dict()), 201)
 
