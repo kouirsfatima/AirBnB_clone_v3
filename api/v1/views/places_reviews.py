@@ -2,9 +2,9 @@
 """ Cities file """
 from api.v1.views import app_views
 from flask import abort, jsonify, make_response, request
-from models.place import Place
 from models.review import Review
 from models.user import User
+from models.place import Place
 from models import storage
 
 
@@ -19,7 +19,7 @@ def get_revies(place_id=None, review_id=None):
         if not review:
             abort(404)
         else:
-            return jsonify(place.to_dict())
+            return jsonify(Place.to_dict())
 
     if place_id:
         place = storage.get(place, place_id)
