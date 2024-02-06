@@ -1,11 +1,9 @@
 #!/usr/bin/python3
-"""State objects that handles all default RESTFul API actions"""
-
+""" States file """
 from api.v1.views import app_views
-from models import storage
+from flask import abort, jsonify, make_response, request
 from models.state import State
-from flask import abort, request, jsonify
-
+from models import storage
 
 @app_views.route("/states", strict_slashes=False, methods=["GET"])
 @app_views.route("/states/<state_id>", strict_slashes=False, methods=["GET"])
@@ -23,17 +21,18 @@ def states(state_id=None):
             abort(404)
         return jsonify(result.to_dict())
 
-
-@app_views.route("/states/<state_id>", strict_slashes=False,
-                 methods=["DELETE"])
-def states_delete(state_id):
-    """delete method"""
-    obj = storage.get(State, state_id)
-    if obj is None:
+@app_views.route(
+        "/states/<state_id>", strict_slashes=False, methods=["DELETE"])
+def delete_state(state_id):
+    """ Deletes a State Object """
+    state = storage.get(State, state_id)
+    if not state:
         abort(404)
-    storage.delete(obj)
+
+    storage.delete(state)
     storage.save()
-    return jsonify({}), 200
+
+    return make_response(jsonify, ({}), 200)
 
 
 @app_views.route("/states", methods=["POST"], strict_slashes=False)
