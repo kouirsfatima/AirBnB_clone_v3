@@ -62,9 +62,9 @@ def Update_state(state_id):
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-    if not request.get_json():
-        return make_response("Not a JSON", 400)
     data = request.get_json()
+    if not data:
+        return make_response("Not a JSON", 400)
     keys = ["id", "created_at", "updated_at"]
 
     for key, value in data.items():
