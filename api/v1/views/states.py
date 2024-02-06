@@ -5,21 +5,27 @@ from flask import abort, jsonify, make_response, request
 from models.state import State
 from models import storage
 
-@app_views.route("/states", strict_slashes=False, methods=["GET"])
-@app_views.route("/states/<state_id>", strict_slashes=False, methods=["GET"])
-def states(state_id=None):
-    """show states and states with id"""
-    states_list = []
-    if state_id is None:
-        all_objs = storage.all(State).values()
-        for v in all_objs:
-            states_list.append(v.to_dict())
-        return jsonify(states_list)
-    else:
-        result = storage.get(State, state_id)
-        if result is None:
+
+@app_views.route('/states', methods=['GET'], strict_slashes=False)
+@app_views.route("/states/<state_id>", methods=["GET"], strict_slashes=False)
+def get_states(state_id=None):
+    """Retrieves the list of all State"""
+    if state_id:
+        state = storage.get(State, state_id)
+        if not state:
             abort(404)
-        return jsonify(result.to_dict())
+        else:
+            return jsonify(state.to_dict())
+
+    else:
+        states = storage.all(State).values()
+        states_list = []
+
+        for state in states:
+            states_list.append(state.to_dict())
+
+        return jsonify(states_list)
+
 
 @app_views.route(
         "/states/<state_id>", strict_slashes=False, methods=["DELETE"])
@@ -32,7 +38,7 @@ def delete_state(state_id):
     storage.delete(state)
     storage.save()
 
-    return make_response(jsonify, ({}), 200)
+    return make_response(jsonify({}), 200)
 
 
 @app_views.route("/states", methods=["POST"], strict_slashes=False)
@@ -55,9 +61,9 @@ def Update_state(state_id):
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-    data = request.get_json(force=True, silent=True)
-    if not data:
-        abort(400, "Not a JSON")
+    if not request.get_json():
+        return make_response("Not a JSON", 400)
+    data = request.get_json()
     keys = ["id", "created_at", "updated_at"]
 
     for key, value in data.items():
