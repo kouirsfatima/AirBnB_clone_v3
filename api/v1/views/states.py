@@ -28,7 +28,8 @@ def get_states(state_id=None):
 
 
 @app_views.route(
-        "/states/<state_id>", strict_slashes=False, methods=["DELETE"])
+    "/states/<state_id>", strict_slashes=False, methods=["DELETE"]
+)
 def delete_state(state_id):
     """ Deletes a State Object """
     state = storage.get(State, state_id)
@@ -50,7 +51,7 @@ def create_state():
         return make_response("Missing name", 400)
 
     data = request.get_json()
-    new_state = State(name=data["name"])
+    new_state = State(name=data.get('name'))
     new_state.save()
     return make_response(jsonify(new_state.to_dict()), 201)
 
