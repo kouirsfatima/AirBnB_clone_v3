@@ -19,10 +19,10 @@ def get_revies(place_id=None, review_id=None):
         if not review:
             abort(404)
         else:
-            return jsonify(Place.to_dict())
+            return jsonify(review.to_dict())
 
     if place_id:
-        place = storage.get(place, place_id)
+        place = storage.get(Place, place_id)
         if not place:
             abort(404)
         reviews = storage.all(Review).values()
@@ -56,8 +56,8 @@ def delete_reviews(review_id):
 )
 def create_reviews(place_id):
     """Create a reviews Object"""
-    Place = storage.get(Place, place_id)
-    if not Place:
+    place = storage.get(Place, place_id)
+    if not place:
         abort(404)
 
     if not request.get_json():
