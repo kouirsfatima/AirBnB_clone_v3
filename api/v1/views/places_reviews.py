@@ -34,6 +34,7 @@ def get_reviwes(place_id=None, review_id=None):
 
         return jsonify(reviews_list)
 
+
 @app_views.route(
     "/reviews/<review_id>", strict_slashes=False, methods=["DELETE"]
 )
@@ -47,6 +48,7 @@ def delete_review(review_id):
     storage.save()
 
     return make_response(jsonify({}), 200)
+
 
 @app_views.route(
     "/places/<place_id>/reviews", methods=["POST"], strict_slashes=False,
