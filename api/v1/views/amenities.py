@@ -9,7 +9,7 @@ from models import storage
 @app_views.route('/amenities', methods=['GET'], strict_slashes=False)
 @app_views.route("/amenities/<amenity_id>", methods=["GET"], strict_slashes=False)
 def get_amentiy(amenity_id=None):
-    """Retrieves the list of all amentiy"""
+    """Retrieves the list of all amenties"""
     if amenity_id:
         amenity = storage.get(Amenity, amenity_id)
         if not amenity:
@@ -43,22 +43,22 @@ def delete_amenity(amenity_id):
 
 
 @app_views.route("/amenities", methods=["POST"], strict_slashes=False)
-def create_state():
+def create_amenity():
     """Create a amenity Object"""
-    if not request.is_json:
+    if not request.get_json():
         return make_response("Not a JSON", 400)
-    if 'name' not in request.json:
+    if 'name' not in request.get_json():
         return make_response("Missing name", 400)
 
     data = request.get_json()
-    new_amenity = Amenity(name=data['name'])
+    new_amenity = Amenity(name=data.get('name'))
     new_amenity.save()
     return make_response(jsonify(new_amenity.to_dict()), 201)
 
 
 @app_views.route("/amenities/<amenity_id>", methods=["PUT"], strict_slashes=False)
-def Update_state(amenity_id):
-    """update a State Object"""
+def Update_Amenity(amenity_id):
+    """update an Amenity Object"""
     amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
