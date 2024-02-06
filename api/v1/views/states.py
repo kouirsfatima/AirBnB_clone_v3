@@ -50,3 +50,20 @@ def create_state():
     new_state = State(**data)
     new_state.save()
     return make_response(jsonify(new_state.to_dict()), 201)
+
+@app_views.route("/states/<state_id>", methods=["put"], strict_slashes=False)
+def Update_state():
+    """ update a State Object """
+    if not request.get_json():
+        return make_response("Not a JSON", 400)
+    if not 'name' in request.get_json():
+        return make_response("Missing name", 400)
+    data = request.get_json()
+    keys = ["id", "created_at", "updated_at"]
+
+    for key, value in data.items():
+        if key not in keys:
+            setattr(data, key, value)
+
+    storage.save(data)
+    return make_response(jsonify(data), 200)
