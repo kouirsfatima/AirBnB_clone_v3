@@ -27,7 +27,9 @@ def get_states(state_id=None):
         return jsonify(states_list)
 
 
-@app_views.route("/states/<state_id>", methods=["DELETE"], strict_slashes=False)
+@app_views.route("/states/<state_id>",
+                 strict_slashes=False,
+                 methods=["DELETE"])
 def delete_state(state_id):
     """ Deletes a State Object """
     state = storage.get(State, state_id)
@@ -66,6 +68,7 @@ def Update_state(state_id):
     keys = ["id", "created_at", "updated_at"]
 
     for key, value in data.items():
-         setattr(state, key, value)
+        if key not in keys:
+            setattr(state, key, value)
     storage.save()
     return make_response(jsonify(state.to_dict()), 200)
