@@ -12,7 +12,7 @@ from models import storage
    '/places/<place_id>/reviews', methods=['GET'], strict_slashes=False
 )
 @app_views.route("/reviews/<review_id>", methods=["GET"], strict_slashes=False)
-def get_revies(place_id=None, review_id=None):
+def get_reviwes(place_id=None, review_id=None):
     """Retrieves the list of all reviews"""
     if review_id:
         review = storage.get(Review, review_id)
@@ -34,12 +34,11 @@ def get_revies(place_id=None, review_id=None):
 
         return jsonify(reviews_list)
 
-
 @app_views.route(
-    "/api/v1/reviews/<review_id>", strict_slashes=False, methods=["DELETE"]
+    "/reviews/<review_id>", strict_slashes=False, methods=["DELETE"]
 )
-def delete_reviews(review_id):
-    """ Deletes a review Object """
+def delete_review(review_id):
+    """ Deletes a Review Object """
     review = storage.get(Review, review_id)
     if not review:
         abort(404)
@@ -49,12 +48,10 @@ def delete_reviews(review_id):
 
     return make_response(jsonify({}), 200)
 
-
 @app_views.route(
-    " /api/v1/places/<place_id>/reviews",
-    methods=["POST"], strict_slashes=False,
+    "/places/<place_id>/reviews", methods=["POST"], strict_slashes=False,
 )
-def create_reviews(place_id):
+def create_review(place_id):
     """Create a reviews Object"""
     place = storage.get(Place, place_id)
     if not place:
@@ -85,13 +82,15 @@ def create_reviews(place_id):
 
 
 @app_views.route("/reviews/<review_id>", methods=["PUT"], strict_slashes=False)
-def Update_review(review_id):
+def update_review(review_id):
     """update a reviews Object"""
     review = storage.get(Review, review_id)
     if review is None:
         abort(404)
+
     if not request.get_json():
         return make_response("Not a JSON", 400)
+
     data = request.get_json()
     keys = ["id", "created_at", "updated_at", "user_id", "place_id"]
 
