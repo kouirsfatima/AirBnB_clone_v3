@@ -47,7 +47,7 @@ def create_state():
     """Create a State Object"""
     if not request.get_json():
         return make_response("Not a JSON", 400)
-    if 'name' not in request.get_json():
+    if not 'name' in request.get_json():
         return make_response("Missing name", 400)
 
     data = request.get_json()
