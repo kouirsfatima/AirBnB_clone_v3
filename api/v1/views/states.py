@@ -55,17 +55,17 @@ def create_state():
 
 
 @app_views.route("/states/<state_id>", methods=["put"], strict_slashes=False)
-def Update_state():
+def Update_state(state_id):
     """update a State Object"""
+    state = storage.get(State, state_id)
+    if state is None:
+        abort(404)
     if not request.get_json():
         return make_response("Not a JSON", 400)
-    if 'name' not in request.get_json():
-        return make_response("Missing name", 400)
     data = request.get_json()
     keys = ["id", "created_at", "updated_at"]
 
     for key, value in data.items():
-        if key not in keys:
-            object.name = data.get("name", object.name)
-    storage.save(data)
-    return make_response(jsonify(data), 200)
+         setattr(state, key, value)
+    storage.save()
+    return make_response(jsonify(state.to_dict()), 200)
