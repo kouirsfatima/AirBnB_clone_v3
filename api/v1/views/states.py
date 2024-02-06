@@ -66,7 +66,6 @@ def Update_state():
 
     for key, value in data.items():
         if key not in keys:
-            setattr(data, key, value)
-
+            object.name = data.get("name", object.name)
     storage.save(data)
     return make_response(jsonify(data), 200)
