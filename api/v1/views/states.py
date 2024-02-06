@@ -27,9 +27,8 @@ def get_states(state_id=None):
         return jsonify(states_list)
 
 
-@app_views.route("/states/<state_id>",
-                 strict_slashes=False,
-                 methods=["DELETE"])
+@app_views.route(
+        "/states/<state_id>", strict_slashes=False, methods=["DELETE"])
 def delete_state(state_id):
     """ Deletes a State Object """
     state = storage.get(State, state_id)
@@ -56,20 +55,33 @@ def create_state():
     return make_response(jsonify(new_state.to_dict()), 201)
 
 
-@app_views.route("/states/<state_id>", methods=["PUT"], strict_slashes=False)
-def Update_state(state_id):
-    """update a State Object"""
-    state = storage.get(State, state_id)
-    if state is None:
+# @app_views.route("/states/<state_id>", methods=["PUT"], strict_slashes=False)
+# def Update_state(state_id):
+#     """update a State Object"""
+#     state = storage.get(State, state_id)
+#     if state is None:
+#         abort(404)
+#     data = request.get_json(force=True, silent=True)
+#     if not data:
+#         abort(400, "Not a JSON")
+#     keys = ["id", "created_at", "updated_at"]
+
+#     for key, value in data.items():
+#         if key not in keys:
+#             if hasattr(state, key):
+#                 setattr(state, key, value)
+#     storage.save()
+#     return make_response(jsonify(state.to_dict()), 200)
+
+@app_views.route("/states/<state_id>", strict_slashes=False, methods=["PUT"])
+def update_state(state_id):
+    """update state"""
+    obj = storage.get(State, state_id)
+    if obj is None:
         abort(404)
     data = request.get_json(force=True, silent=True)
     if not data:
         abort(400, "Not a JSON")
-    keys = ["id", "created_at", "updated_at"]
-
-    for key, value in data.items():
-        if key not in keys:
-            if hasattr(state, key):
-                setattr(state, key, value)
-    storage.save()
-    return make_response(jsonify(state.to_dict()), 200)
+    obj.name = data.get("name", obj.name)
+    obj.save()
+    return jsonify(obj.to_dict()), 200
