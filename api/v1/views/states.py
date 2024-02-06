@@ -41,18 +41,30 @@ def delete_state(state_id):
     return make_response(jsonify, ({}), 200)
 
 
-@app_views.route("/states", methods=["POST"], strict_slashes=False)
-def create_state():
-    """Create a State Object"""
-    if not request.get_json():
-        return make_response("Not a JSON", 400)
-    if 'name' not in request.get_json():
-        return make_response("Missing name", 400)
+# @app_views.route("/states", methods=["POST"], strict_slashes=False)
+# def create_state():
+#     """Create a State Object"""
+#     if not request.get_json():
+#         return make_response("Not a JSON", 400)
+#     if 'name' not in request.get_json():
+#         return make_response("Missing name", 400)
 
-    data = request.get_json()
-    new_state = State(name=data["name"])
+#     data = request.get_json()
+#     new_state = State(name=data["name"])
+#     new_state.save()
+#     return make_response(jsonify(new_state.to_dict()), 201)
+
+@app_views.route("/states", strict_slashes=False, methods=["POST"])
+def create_state():
+    """create a new post req"""
+    data = request.get_json(force=True, silent=True)
+    if not data:
+        abort(400, "Not a JSON")
+    if "name" not in data:
+        abort(400, "Missing name")
+    new_state = State(**data)
     new_state.save()
-    return make_response(jsonify(new_state.to_dict()), 201)
+    return jsonify(new_state.to_dict()), 201
 
 
 # @app_views.route("/states/<state_id>", methods=["PUT"], strict_slashes=False)
