@@ -69,6 +69,7 @@ def Update_state(state_id):
 
     for key, value in data.items():
         if key not in keys:
-            setattr(state, key, value)
+            if hasattr(state, key):
+                setattr(state, key, value)
     storage.save()
     return make_response(jsonify(state.to_dict()), 200)
