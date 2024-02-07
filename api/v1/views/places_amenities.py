@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ Place_amenities file """
 from api.v1.views import app_views
-from flask import abort, jsonify, make_response, request
+from flask import abort, jsonify, make_response
 from models.place import Place
 from models.amenity import Amenity
 
@@ -28,8 +28,11 @@ def get_place_amenity(place_id):
 
     return jsonify(amenities_list)
 
+
 @app_views.route(
-    "/places/<place_id>/amenities/<amenity_id>", strict_slashes=False, methods=["DELETE"]
+    "/places/<place_id>/amenities/<amenity_id>",
+    strict_slashes=False,
+    methods=["DELETE"]
 )
 def delete_place_amenity(place_id, amenity_id):
     """ Deletes a Place_amenity Object """
@@ -56,8 +59,11 @@ def delete_place_amenity(place_id, amenity_id):
     return make_response(jsonify({}), 200)
 
 
-@app_views.route('/places/<place_id>/amenities/<amenity_id>', methods=['POST'],
-                 strict_slashes=False)
+@app_views.route(
+    '/places/<place_id>/amenities/<amenity_id>',
+    methods=['POST'],
+    strict_slashes=False
+)
 def post_place_amenity(place_id, amenity_id):
     """ link a Amenity object to a Place """
 
