@@ -11,7 +11,7 @@ from models import storage, storage_t
 @app_views.route(
     '/places/<place_id>/amenities', methods=['GET'], strict_slashes=False
 )
-def get_amenities_of_place(place_id):
+def get_place_amenity(place_id):
     """Retrieves the list of all place_amenities"""
     place = storage.get(Place, place_id)
     if not place:
@@ -31,7 +31,7 @@ def get_amenities_of_place(place_id):
 @app_views.route(
     "/places/<place_id>/amenities/<amenity_id>", strict_slashes=False, methods=["DELETE"]
 )
-def delete_place(place_id, amenity_id):
+def delete_place_amenity(place_id, amenity_id):
     """ Deletes a Place_amenity Object """
     place = storage.get(Place, place_id)
     if not place:
