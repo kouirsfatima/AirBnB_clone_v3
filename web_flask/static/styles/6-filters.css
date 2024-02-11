@@ -56,8 +56,30 @@ section.filters > button:hover {
     z-index: 1;
     padding: 30px 50px 30px 0;
     margin-top: 17px;
+    max-height: 300px;
+    overflow-y: scroll;
 }
-
+/* width */
+::-webkit-scrollbar {
+    border-radius: 5px;
+    width: 9px;
+  }
+  
+  /* Track */
+  /* ::-webkit-scrollbar-track {
+    background: #AAA; 
+  } */
+  
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: #CCC; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
 .popover, .popover ul {
     list-style-type: none;
 }
