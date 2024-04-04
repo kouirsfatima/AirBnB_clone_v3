@@ -5,6 +5,8 @@ from flask import abort, jsonify, make_response, request
 from models.place import Place
 from models.city import City
 from models.user import User
+from models.state import State
+from models.amenity import Amenity
 
 from models import storage
 
